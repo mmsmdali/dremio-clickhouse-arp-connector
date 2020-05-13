@@ -15,7 +15,7 @@
     "-//Puppy Crawl//DTD Suppressions 1.1//EN"
     "suppressions_1_1.dtd">
 
-<!--  Checkstyle Suppressions for Dremio HBase plugin -->
+<!--  Checkstyle Suppressions for Dremio ClickHouse plugin -->
 
 <suppressions>
   <suppress files="[\\/]generated-sources[\\/]" checks="AvoidStarImport,NeedBraces"/>
