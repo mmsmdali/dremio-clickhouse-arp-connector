@@ -11,7 +11,7 @@ syntax:
   allows_boolean_literal: false
   map_boolean_literal_to_bit: false
   supports_catalogs: false
-  supports_schemas: false
+  supports_schemas: true
 
 data_types:
   mappings:
@@ -30,6 +30,26 @@ data_types:
       name: "VARCHAR"
     dremio:
       name: "varchar"
+    required_cast_arguments: "none"
+  - source:
+      name: "STRING"
+    dremio:
+      name: "varchar"
+    required_cast_arguments: "none"
+  - source:
+      name: "DATE"
+    dremio:
+      name: "varchar"
+    required_cast_arguments: "none"
+  - source:
+      name: "DATETIME"
+    dremio:
+      name: "timestamp"
+    required_cast_arguments: "none"
+  - source:
+      name: "TIMESTAMP"
+    dremio:
+      name: "timestamp"
     required_cast_arguments: "none"
 
 relational_algebra:
