@@ -1,6 +1,17 @@
-# Dremio ARP Example Connector
+# Dremio ClickHouse ARP Connector
 
-## Overview
+The ClickHouse connector allows Dremio to connect to and query data in ClickHouse Columnar Database.
+
+## Building and Installation
+
+1. In root directory with the pom.xml file run `mvn clean install`
+2. Take the resulting .jar file in the target folder and put it in the \dremio\jars folder in Dremio
+3.1. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/clickhouse-jdbc) and put in in the \dremio\jars\3rdparty folder
+3.2. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/clickhouse4j) and put in in the \dremio\jars\3rdparty folder
+3.3. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/ClickHouse-Native-JDBC) and put in in the \dremio\jars\3rdparty folder
+4. Restart Dremio
+
+# ARP Overview
 
 The Advanced Relational Pushdown (ARP) Framework allows for the creation of Dremio plugins for any data source which has a JDBC driver and accepts SQL 
 as a query language. It allows for a mostly code-free creation of a plugin, allowing for modification of queries issued 
@@ -44,14 +55,3 @@ The ARP file is broken down into several sections:
   - The same as operators, but allows specification of functions which may have a variable number of arguments, such as AND and OR.
 
 If an operation or function is not specified in the ARP file, then Dremio will handle the operation itself. Any operations which are indicated as supported but need to be stacked on operations which are not will not be pushed down to the SQL query.
-
-## ClickHouse example
-The ClickHouse example provided here shows and example ARP YAML file for ClickHouse and the associated files require to build a connector
-from the template. 
-
-## Building and Installation
-
-1. In root directory with the pom.xml file run `mvn clean install`
-2. Take the resulting .jar file in the target folder and put it in the \dremio\jars folder in Dremio
-3. Take the ClickHouse JDBC driver from (https://github.com/ClickHouse/clickhouse-jdbc) and put in in the \dremio\jars\3rdparty folder
-4. Restart Dremio
