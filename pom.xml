@@ -21,12 +21,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>4.1.8-202003120636020140-9c2a6b13</version>
+  <version>4.3.0-202005130311450502-323f05d9</version>
   <artifactId>dremio-clickhouse-plugin</artifactId>
   <name>Dremio ClickHouse Community Connector</name>
 
   <properties>
-    <version.dremio>4.1.8-202003120636020140-9c2a6b13</version.dremio>
+    <version.dremio>4.3.0-202005130311450502-323f05d9</version.dremio>
   </properties>
 
   <dependencies>
@@ -42,7 +42,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <configLocation>src/main/checkstyle/checkstyle-config.xml</configLocation>
           <suppressionsLocation>src/main/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
@@ -50,7 +50,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.0</version>
+        <version>3.8.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -62,11 +62,11 @@
   <repositories>
     <repository>
       <id>dremio-public</id>
-      <url>http://maven.dremio.com/public/</url>
+      <url>https://maven.dremio.com/public/</url>
     </repository>
     <repository>
       <id>dremio-free</id>
-      <url>http://maven.dremio.com/free/</url>
+      <url>https://maven.dremio.com/free/</url>
     </repository>    
   </repositories>
 </project>
