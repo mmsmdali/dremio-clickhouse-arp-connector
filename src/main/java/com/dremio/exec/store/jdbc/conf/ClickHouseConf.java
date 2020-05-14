@@ -90,6 +90,9 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
     user = user == null ? "default" : user;
     final String password = checkNotNull(this.password, "Missing Password.");
     driver = driver == null ? "ru.yandex.clickhouse.ClickHouseDriver" : driver;
+    
+    // jdbc:clickhouse://<host>:<port>[/<database>]
+	  // jdbc:clickhouse://<host>:<port>[/<database>]?user=<user>&password=<password>
 
     return String.format("jdbc:clickhouse://%s:%s/%s?user=%s&password=%s" /* &%s */ , host, port, database, user, password /*, options*/ );
   }
