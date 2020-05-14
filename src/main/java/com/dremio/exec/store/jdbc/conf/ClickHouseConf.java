@@ -67,32 +67,31 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
   @Tag(5)
   @DisplayMetadata(label = "Password")
   public String password;
-
+  /*
   @Tag(6)
-  @DisplayMetadata(label = "Query String [E.g. receive_timeout=6000&connect_timeout=567890]")
-  public String qs;
-
+  @DisplayMetadata(label = "Options [E.g. receive_timeout=6000&connect_timeout=567890]")
+  public String options;
+  */
   @NotBlank
-  @Tag(7)
+  @Tag(6)
   @DisplayMetadata(label = "JDBC Driver [E.g. ru.yandex.clickhouse.ClickHouseDriver , cc.blynk.clickhouse.ClickHouseDriver , com.github.housepower.jdbc.ClickHouseDriver]")
   public String driver="ru.yandex.clickhouse.ClickHouseDriver";
-
+  /*
   @Tag(2)
   @DisplayMetadata(label = "Record fetch size")
   @NotMetadataImpacting
   public int fetchSize = 200;
-
+  */
   @VisibleForTesting
   public String toJdbcConnectionString() {
-	host = host == null ? "localhost" : host;
-	port = port == null ? "8123" : port;
-	database = database == null ? "default" : database;
-	user = user == null ? "default" : user;
-	final String password = checkNotNull(this.password, "Missing Password.");
+    host = host == null ? "localhost" : host;
+    port = port == null ? "8123" : port;
+    database = database == null ? "default" : database;
+    user = user == null ? "default" : user;
+    final String password = checkNotNull(this.password, "Missing Password.");
+    driver = driver == null ? "ru.yandex.clickhouse.ClickHouseDriver" : driver;
 
-driver = driver == null ? "ru.yandex.clickhouse.ClickHouseDriver" : driver;
-
-    return String.format("jdbc:clickhouse://%s:%s/%s?user=%s&password=%s&%s", host, port, database, user, password,qs);
+    return String.format("jdbc:clickhouse://%s:%s/%s?user=%s&password=%s" /* &%s */ , host, port, database, user, password /*, options*/ );
   }
 
   @Override
@@ -100,16 +99,15 @@ driver = driver == null ? "ru.yandex.clickhouse.ClickHouseDriver" : driver;
   public Config toPluginConfig(SabotContext context) {
     return JdbcStoragePlugin.Config.newBuilder()
         .withDialect(getDialect())
-		// .withFetchSize(fetchSize)
+        // .withFetchSize(fetchSize)
         .withDatasourceFactory(this::newDataSource)
         .clearHiddenSchemas()
-        //.addHiddenSchema("SYSTEM")
+        // .addHiddenSchema("SYSTEM")
         .build();
   }
 
   private CloseableDataSource newDataSource() {
-
-final String jdbcConnectionString=toJdbcConnectionString();
+    final String jdbcConnectionString=toJdbcConnectionString();
     return DataSources.newGenericConnectionPoolDataSource(driver,     jdbcConnectionString, /* user */ null, /* password */ null, null, DataSources.CommitMode.DRIVER_SPECIFIED_COMMIT_MODE);
   }
 
