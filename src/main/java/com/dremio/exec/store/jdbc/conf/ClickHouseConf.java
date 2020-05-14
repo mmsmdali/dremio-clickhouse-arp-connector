@@ -41,7 +41,7 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
   private static final String ARP_FILENAME = "arp/implementation/clickhouse-arp.yaml";
   private static final ArpDialect ARP_DIALECT =
       AbstractArpConf.loadArpFile(ARP_FILENAME, (ArpDialect::new));
-//  private static final String DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
+  // private static final String DRIVER = "ru.yandex.clickhouse.ClickHouseDriver";
 
   @NotBlank
   @Tag(1)
@@ -92,7 +92,7 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
     driver = driver == null ? "ru.yandex.clickhouse.ClickHouseDriver" : driver;
     
     // jdbc:clickhouse://<host>:<port>[/<database>]
-	  // jdbc:clickhouse://<host>:<port>[/<database>]?user=<user>&password=<password>
+    // jdbc:clickhouse://<host>:<port>[/<database>]?user=<user>&password=<password>
 
     return String.format("jdbc:clickhouse://%s:%s/%s?user=%s&password=%s" /* &%s */ , host, port, database, user, password /*, options*/ );
   }
