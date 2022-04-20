@@ -6,10 +6,8 @@ The ClickHouse connector allows Dremio to connect to and query data in ClickHous
 
 1. In root directory with the pom.xml file run `mvn clean install`
 2. Take the resulting .jar file in the target folder and put it in the \dremio\jars folder in Dremio
-3. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/clickhouse-jdbc) and put in in the \dremio\jars\3rdparty folder
-4. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/clickhouse4j) and put in in the \dremio\jars\3rdparty folder
-5. Take the ClickHouse JDBC driver from (https://github.com/altxcorp/ClickHouse-Native-JDBC) and put in in the \dremio\jars\3rdparty folder
-6. Restart Dremio
+3. Take the ClickHouse JDBC driver from (https://github.com/ClickHouse/clickhouse-jdbc) and put in in the \dremio\jars\3rdparty folder
+4. Restart Dremio
 
 # ARP Overview
 
