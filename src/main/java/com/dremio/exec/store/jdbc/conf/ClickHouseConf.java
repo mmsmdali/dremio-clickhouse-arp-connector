@@ -19,7 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.dremio.options.OptionManager;
 import com.dremio.security.CredentialsService;
-import org.hibernate.validator.constraints.NotBlank;
+// import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 import com.dremio.exec.catalog.conf.DisplayMetadata;
 import com.dremio.exec.catalog.conf.NotMetadataImpacting;
@@ -43,35 +44,33 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
   private static final String ARP_FILENAME = "arp/implementation/clickhouse-arp.yaml";
   private static final ArpDialect ARP_DIALECT =
       AbstractArpConf.loadArpFile(ARP_FILENAME, (ArpDialect::new));
-  private static final String DRIVER = "com.clickhouse.jdbc.ClickHouseDriver";
-  private static final String PREFIX = "clickhouse";
+  private static final String DRIVER = "com.clickhouse.jdbc.ClickHouseDriver"; // version 0.4.0 onwards
+  // private static final String DRIVER = "ru.yandex.clickhouse.ClickHouseDriver"; // deprecated since 0.3.2+, removed from 0.4.0
+
+  private static final String PREFIX = "ch";
   private static final String PROTOCOL = "http";
+  private static final String HOST = "localhost";
+  private static final String PORT = "8123";
+  private static final String DATABASE = "default";
+  private static final String defaultJdbcConnectionString = String.format("jdbc:%s:%s://%s:%s/%s", PREFIX, PROTOCOL, HOST, PORT, DATABASE);
 
-  @NotBlank
+  private static final String defaultUsername = "default";
+  
+  @NotEmpty
   @Tag(1)
-  @DisplayMetadata(label = "Host [localhost, 127.0.0.1, 127.1.1.0]")
-  public String host="localhost";
-
-  @NotBlank
+  @DisplayMetadata(label = "JDBC Connection String (jdbc:<prefix>[:<protocol>]://<host>:[<port>][/<database>[?param1=value1&param2=value2]])")
+  public String jdbcConnectionString = defaultJdbcConnectionString;
+  
+  @NotEmpty
   @Tag(2)
-  @DisplayMetadata(label = "Port [8123]")
-  public String port="8123";
-  
-  @Tag(3)
-  @DisplayMetadata(label = "Database [default]")
-  public String database="default";
-  
-  @NotBlank
-  @Tag(4)
-  @DisplayMetadata(label = "User [default]")
-  public String user="default";
+  @DisplayMetadata(label = "Username [default]")
+  public String username = defaultUsername;
 
-  @NotBlank
+  @NotEmpty
   @Secret
-  @Tag(5)
+  @Tag(3)
   @DisplayMetadata(label = "Password")
-  public String password;  
-  
+  public String password;    
   /*
   @Tag(2)
   @DisplayMetadata(label = "Record fetch size")
@@ -88,26 +87,25 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
 //  @NotMetadataImpacting
 //  @JsonIgnore
 //  public boolean enableExternalQuery = false;
-
-  @Tag(6)
+  
+  @Tag(4)
   @DisplayMetadata(label = "Maximum idle connections")
   @NotMetadataImpacting
   public int maxIdleConns = 8;
 
-  @Tag(7)
+  @Tag(5)
   @DisplayMetadata(label = "Connection idle time (s)")
   @NotMetadataImpacting
   public int idleTimeSec = 60;
+  
 
   @VisibleForTesting
-  public String toJdbcConnectionString() {
-	  final String host = this.host == null ? "localhost" : this.host;
-    final String port = this.port == null ? "8123" : this.port;
-    final String database = this.database == null ? "default" : this.database;
-    final String user = this.user == null ? "default" : this.user;
+  public String toJdbcConnectionString() {	  
+    final String jdbcConnectionString = this.jdbcConnectionString == null ? defaultJdbcConnectionString : this.jdbcConnectionString;
+    final String username = this.username == null ? defaultUsername : this.username;
     final String password = checkNotNull(this.password, "Missing Password.");
 
-    return String.format("jdbc:%s:%s://%s:%s/%s?user=%s&password=%s", PREFIX, PROTOCOL, host, port, database, user, password);
+    return String.format("%s?user=%s&password=%s", jdbcConnectionString, username, password);
   }
 
   @Override
@@ -128,7 +126,7 @@ public class ClickHouseConf extends AbstractArpConf<ClickHouseConf> {
 
   private CloseableDataSource newDataSource() {
     return DataSources.newGenericConnectionPoolDataSource(DRIVER,
-      toJdbcConnectionString(), /* user */ null, /* password */ null, null, DataSources.CommitMode.DRIVER_SPECIFIED_COMMIT_MODE,
+      toJdbcConnectionString(), /* username */ null, /* password */ null, null, DataSources.CommitMode.DRIVER_SPECIFIED_COMMIT_MODE,
             maxIdleConns, idleTimeSec);
   }
 
