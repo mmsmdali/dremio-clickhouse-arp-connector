@@ -1,3 +1,19 @@
+#
+# Copyright (C) 2017-2019 Dremio Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 metadata:
   # Manually Configured Metadata Section.
   name: CLICKHOUSE
@@ -6,51 +22,510 @@ metadata:
 
 syntax:
   # Manually Configured Syntax Section.
-  identifier_quote: '"'
-  identifier_length_limit: 128
+  identifier_quote: '"' # https://clickhouse.com/docs/en/sql-reference/syntax/#syntax-identifiers
+  identifier_length_limit: 128 # https://stackoverflow.com/questions/68358686/what-is-the-maximum-length-of-a-column-in-clickhouse-can-it-be-modified
   allows_boolean_literal: false
   map_boolean_literal_to_bit: false
   supports_catalogs: false
   supports_schemas: true
 
+# https://clickhouse.com/docs/en/sql-reference/data-types
+# https://clickhouse.com/docs/en/operations/system-tables/data_type_families#system_tables-data_type_families
+
 data_types:
   mappings:
-  # Manually Configured Data Types Mappings Section.
+  # Manually Configured Data Types Mappings Section.  
+  
+  # - source:
+  #    name: "<JDBC_TYPE>"
+  #  dremio:
+  #    name: "<DREMIO_TYPE>"
+  #  required_cast_arguments: "none"
+
+  # Bool => bool, boolean
   - source:
-      name: "INTEGER"
+      name: "Bool"
     dremio:
-      name: "integer"
-    required_cast_arguments: "none"
+      name: "boolean"
+
   - source:
-      name: "REAL"
+      name: "boolean"
+    dremio:
+      name: "boolean"
+
+  # DateTime => TIMESTAMP
+  - source:
+      name: "DateTime"
+    dremio:
+      name: "timestamp"
+
+  - source:
+      name: "timestamp"
+    dremio:
+      name: "timestamp"
+
+  # Decimal => DEC, FIXED, NUMERIC
+  # Decimal32, Decimal64, Decimal128, Decimal256
+  - source:
+      name: "Decimal"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+
+  - source:
+      name: "Decimal32"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+  
+  - source:
+      name: "Decimal64"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+  
+  - source:
+      name: "Decimal128"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+    
+  - source:
+      name: "Decimal256"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+
+  - source:
+      name: "dec"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+  
+  - source:
+      name: "fixed"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+
+  - source:
+      name: "numeric"
+    dremio:
+      name: "double" # decimal partially supported, can use double
+
+  # Enum => ENUM
+  - source:
+      name: "Enum"
+    dremio:
+      name: "varchar"
+
+  # FixedString => BINARY
+  - source:
+      name: "FixedString"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "binary"
+    dremio:
+      name: "varchar"
+
+  # Float32 => FLOAT, REAL, SINGLE
+  - source:
+      name: "Float32"
+    dremio:
+      name: "float"
+
+  - source:
+      name: "float"
+    dremio:
+      name: "float"
+
+  - source:
+      name: "real"
+    dremio:
+      name: "float"
+
+  - source:
+      name: "single"
+    dremio:
+      name: "float"
+
+  # Float64 => DOUBLE, DOUBLE PRECISION
+  - source:
+      name: "Float64"
     dremio:
       name: "double"
-    required_cast_arguments: "none"
+
   - source:
-      name: "VARCHAR"
+      name: "double"
+    dremio:
+      name: "double"
+
+  - source:
+      name: "double precision"
+    dremio:
+      name: "double"
+    
+  # IPv4 => INET4
+  - source:
+      name: "IPv4"
     dremio:
       name: "varchar"
-    required_cast_arguments: "none"
+
   - source:
-      name: "STRING"
+      name: "inet4"
     dremio:
       name: "varchar"
-    required_cast_arguments: "none"
+
+  # IPv6 => INET6
   - source:
-      name: "DATE"
+      name: "IPv6"
     dremio:
       name: "varchar"
-    required_cast_arguments: "none"
+
   - source:
-      name: "DATETIME"
+      name: "inet6"
     dremio:
-      name: "timestamp"
-    required_cast_arguments: "none"
+      name: "varchar"
+
+  # Int8 => BYTE, INT1, INT1 SIGNED, TINYINT, TINYINT SIGNED
   - source:
-      name: "TIMESTAMP"
+      name: "Int8"
     dremio:
-      name: "timestamp"
-    required_cast_arguments: "none"
+      name: "integer"
+
+  - source:
+      name: "byte"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int1"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int1 signed"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "tinyint"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "tinyint signed"
+    dremio:
+      name: "integer"
+
+  # Int16 => SMALLINT, SMALLINT SIGNED
+  - source:
+      name: "Int16"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "smallint"
+    dremio:
+      name: "integer"
+  
+  - source:
+      name: "smallint signed"
+    dremio:
+      name: "integer"
+
+  # Int32 => INT, INT SIGNED, INTEGER, INTEGER SIGNED, MEDIUMINT, MEDIUMINT SIGNED
+  - source:
+      name: "Int32"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int signed"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "integer"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "integer signed"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "mediumint"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "mediumint signed"
+    dremio:
+      name: "integer"
+
+  # Int64 => BIGINT, BIGINT SIGNED, TIME
+  - source:
+      name: "Int64"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "bigint"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "bigint signed"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "time"
+    dremio:
+      name: "bigint"
+  
+  # UInt8 => INT1 UNSIGNED, TINYINT UNSIGNED
+  - source:
+      name: "UInt8"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int1 unsigned"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "tinyint unsigned"
+    dremio:
+      name: "integer"
+
+  # UInt16 => SMALLINT UNSIGNED, YEAR
+  - source:
+      name: "UInt16"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "smallint unsigned"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "year"
+    dremio:
+      name: "integer"
+
+  # UInt32 => INT UNSIGNED, INTEGER UNSIGNED, MEDIUMINT UNSIGNED
+  - source:
+      name: "UInt32"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "int unsigned"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "integer unsigned"
+    dremio:
+      name: "integer"
+  
+  - source:
+      name: "mediumint unsigned"
+    dremio:
+      name: "integer"
+
+  # UInt64 => BIGINT UNSIGNED, BIT, SET
+  - source:
+      name: "UInt64"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "bigint unsigned"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "bit"
+    dremio:
+      name: "integer"
+
+  - source:
+      name: "set"
+    dremio:
+      name: "integer"
+    
+  # String =>
+  # BINARY LARGE OBJECT, BINARY VARYING, BLOB, BYTEA, CHAR,
+  # CHAR LARGE OBJECT, CHAR VARYING, CHARACTER, CHARACTER LARGE OBJECT, CHARACTER VARYING,
+  # CLOB, GEOMETRY, LONGBLOB, LONGTEXT, MEDIUMBLOB,
+  # MEDIUMTEXT, NATIONAL CHAR, NATIONAL CHAR VARYING, NATIONAL CHARACTER, NATIONAL CHARACTER LARGE OBJECT,
+  # NATIONAL CHARACTER VARYING, NCHAR, NCHAR LARGE OBJECT, NCHAR VARYING, NVARCHAR,
+  # TEXT, TINYBLOB, TINYTEXT, VARBINARY, VARCHAR, VARCHAR2
+  - source:
+      name: "String"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "binary large object"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "binary varying"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "blob"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "bytea"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "char"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "char large object"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "char varying"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "character"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "character large object"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "character varying"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "clob"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "geometry"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "longblob"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "longtext"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "mediumblob"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "mediumtext"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "national char"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "national char varying"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "national character"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "national character large object"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "national character varying"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "nchar"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "nchar large object"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "nchar varying"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "nvarchar"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "text"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "tinyblob"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "tinytext"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "varbinary"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "varchar"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "varchar2"
+    dremio:
+      name: "varchar"  
 
 relational_algebra:
   aggregation:
@@ -215,3 +690,4 @@ expressions:
       variable_signatures:
         - return: boolean
           arg_type: boolean
+          
