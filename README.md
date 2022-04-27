@@ -2,11 +2,13 @@
 
 The ClickHouse connector allows Dremio to connect to and query data in ClickHouse Columnar Database.
 
+[Dremio ClickHouse ARP Connector](https://github.com/mmsmdali/dremio-clickhouse-arp-connector) can be used as a bridge between [Dremio Data Lakehouse Platform](https://github.com/dremio/dremio-oss) & [ClickHouse DB](https://github.com/ClickHouse/ClickHouse) through  [ClickHouse JDBC](https://github.com/ClickHouse/clickhouse-jdbc).
+
 ## Building and Installation
 
 1. In root directory with the pom.xml file run `mvn clean install`
-2. Take the resulting .jar file in the target folder [or copy the pre-build jar file from this git target folder] and put it in the $DREMIO_HOME/jars folder in Dremio
-3. Take the ClickHouse JDBC driver from (https://github.com/ClickHouse/clickhouse-jdbc) [or copy the pre-build jar file from this git target folder] and put in in the $DREMIO_HOME/jars/3rdparty folder
+2. Take the resulting .jar file in the target folder or [copy the pre-build jar](https://github.com/mmsmdali/dremio-clickhouse-arp-connector/blob/master/target/dremio-clickhouse-plugin-20.1.0-202202061055110045-36733c65.jar) and put it in the $DREMIO_HOME/jars folder in Dremio
+3. Take the [ClickHouse JDBC driver](https://github.com/ClickHouse/clickhouse-jdbc) or [copy the pre-build jar](https://github.com/mmsmdali/dremio-clickhouse-arp-connector/blob/master/target/clickhouse-jdbc-0.3.3-SNAPSHOT-all.jar) or [mvnrepository](https://mvnrepository.com/artifact/com.clickhouse/clickhouse-jdbc) and put in in the $DREMIO_HOME/jars/3rdparty folder
 4. Restart Dremio
 
 # ARP Overview
@@ -16,7 +18,7 @@ as a query language. It allows for a mostly code-free creation of a plugin, allo
 by Dremio using a configuration file.
 
 There are two files that are necessary for creation of an ARP-based plugin: the storage plugin configuration, which 
-is code, and the plugin ARP file, which is a YAML (https://yaml.org/) file.
+is code, and the plugin ARP file, which is a [YAML](https://yaml.org) file.
 
 The storage plugin configuration file tells Dremio what the name of the plugin should be, what connection options 
 should be displayed in the source UI, what the name of the ARP file is, which JDBC driver to use and how to make a 
