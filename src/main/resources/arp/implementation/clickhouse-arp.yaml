@@ -53,7 +53,19 @@ data_types:
     dremio:
       name: "boolean"
 
+  # Date, Date32
+  - source:
+      name: "Date"
+    dremio:
+      name: "date"
+  
+  - source:
+      name: "Date32"
+    dremio:
+      name: "date"
+
   # DateTime => TIMESTAMP
+  # DateTime32, DateTime64
   - source:
       name: "DateTime"
     dremio:
@@ -63,6 +75,57 @@ data_types:
       name: "timestamp"
     dremio:
       name: "timestamp"
+
+  - source:
+      name: "DateTime32"
+    dremio:
+      name: "timestamp"
+
+  - source:
+      name: "DateTime64"
+    dremio:
+      name: "timestamp"
+  
+  # IntervalDay, IntervalHour, IntervalMinute, IntervalMonth, IntervalQuarter, IntervalSecond, IntervalWeek, IntervalYear
+  - source:
+      name: "IntervalDay"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalHour"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalMinute"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalMonth"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalQuarter"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalSecond"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalWeek"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "IntervalYear"
+    dremio:
+      name: "bigint"
 
   # Decimal => DEC, FIXED, NUMERIC
   # Decimal32, Decimal64, Decimal128, Decimal256
@@ -74,41 +137,52 @@ data_types:
   - source:
       name: "Decimal32"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
   
   - source:
       name: "Decimal64"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
   
   - source:
       name: "Decimal128"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
     
   - source:
       name: "Decimal256"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
 
   - source:
       name: "dec"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
   
   - source:
       name: "fixed"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
 
   - source:
       name: "numeric"
     dremio:
-      name: "double" # decimal partially supported, can use double
+      name: "double"
 
   # Enum => ENUM
+  # Enum8, Enum16
   - source:
       name: "Enum"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "Enum8"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "Enum16"
     dremio:
       name: "varchar"
 
@@ -285,6 +359,17 @@ data_types:
       name: "time"
     dremio:
       name: "bigint"
+
+  # Int128, # Int256
+  - source:
+      name: "Int128"
+    dremio:
+      name: "bigint"
+  
+  - source:
+      name: "Int256"
+    dremio:
+      name: "bigint"
   
   # UInt8 => INT1 UNSIGNED, TINYINT UNSIGNED
   - source:
@@ -343,30 +428,41 @@ data_types:
   - source:
       name: "UInt64"
     dremio:
-      name: "integer"
+      name: "bigint"
 
   - source:
       name: "bigint unsigned"
     dremio:
-      name: "integer"
+      name: "bigint"
 
   - source:
       name: "bit"
     dremio:
-      name: "integer"
+      name: "bigint"
 
   - source:
       name: "set"
     dremio:
-      name: "integer"
+      name: "bigint"
+
+  # UInt128, UInt256
+  - source:
+      name: "UInt128"
+    dremio:
+      name: "bigint"
+
+  - source:
+      name: "UInt256"
+    dremio:
+      name: "bigint"
     
   # String =>
-  # BINARY LARGE OBJECT, BINARY VARYING, BLOB, BYTEA, CHAR,
-  # CHAR LARGE OBJECT, CHAR VARYING, CHARACTER, CHARACTER LARGE OBJECT, CHARACTER VARYING,
-  # CLOB, GEOMETRY, LONGBLOB, LONGTEXT, MEDIUMBLOB,
-  # MEDIUMTEXT, NATIONAL CHAR, NATIONAL CHAR VARYING, NATIONAL CHARACTER, NATIONAL CHARACTER LARGE OBJECT,
-  # NATIONAL CHARACTER VARYING, NCHAR, NCHAR LARGE OBJECT, NCHAR VARYING, NVARCHAR,
-  # TEXT, TINYBLOB, TINYTEXT, VARBINARY, VARCHAR, VARCHAR2
+  # => BINARY LARGE OBJECT, BINARY VARYING, BLOB, BYTEA, CHAR,
+  # => CHAR LARGE OBJECT, CHAR VARYING, CHARACTER, CHARACTER LARGE OBJECT, CHARACTER VARYING,
+  # => CLOB, GEOMETRY, LONGBLOB, LONGTEXT, MEDIUMBLOB,
+  # => MEDIUMTEXT, NATIONAL CHAR, NATIONAL CHAR VARYING, NATIONAL CHARACTER, NATIONAL CHARACTER LARGE OBJECT,
+  # => NATIONAL CHARACTER VARYING, NCHAR, NCHAR LARGE OBJECT, NCHAR VARYING, NVARCHAR,
+  # => TEXT, TINYBLOB, TINYTEXT, VARBINARY, VARCHAR, VARCHAR2
   - source:
       name: "String"
     dremio:
@@ -525,7 +621,53 @@ data_types:
   - source:
       name: "varchar2"
     dremio:
-      name: "varchar"  
+      name: "varchar"
+
+  # UUID
+  - source:
+      name: "UUID"
+    dremio:
+      name: "varchar"
+
+  # Point, Polygon, Ring, MultiPolygon, Array
+  - source:
+      name: "Point"
+    dremio:
+      name: "varchar" # list
+  
+  - source:
+      name: "Polygon"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "Ring"
+    dremio:
+      name: "varchar"
+  
+  - source:
+      name: "MultiPolygon"
+    dremio:
+      name: "varchar"
+
+  - source:
+      name: "Array"
+    dremio:
+      name: "varchar"
+  
+  # Tuple, Nested
+  - source:
+      name: "Tuple"
+    dremio:
+      name: "varchar" # struct
+  
+  - source:
+      name: "Nested"
+    dremio:
+      name: "varchar"
+
+  # Nothing, Nullable, Map, Object, JSON, LowCardinality, SimpleAggregateFunction, AggregateFunction
+  
 
 relational_algebra:
   aggregation:
