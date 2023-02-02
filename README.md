@@ -13,7 +13,7 @@ The ClickHouse connector allows Dremio to connect to and query data in ClickHous
 
 # ARP Overview
 
-The Advanced Relational Pushdown (ARP) Framework allows for the creation of Dremio plugins for any data source which has a JDBC driver and accepts SQL 
+The [Advanced Relational Pushdown (ARP)](https://www.dremio.com/resources/tutorials/how-to-create-an-arp-connector) Framework allows for the creation of Dremio plugins for any data source which has a JDBC driver and accepts SQL 
 as a query language. It allows for a mostly code-free creation of a plugin, allowing for modification of queries issued 
 by Dremio using a configuration file.
 
