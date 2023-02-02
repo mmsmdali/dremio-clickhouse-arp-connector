@@ -4,6 +4,8 @@ The ClickHouse connector allows Dremio to connect to and query data in ClickHous
 
 [Dremio ClickHouse ARP Connector](https://github.com/mmsmdali/dremio-clickhouse-arp-connector) can be used as a bridge between [Dremio Data Lakehouse Platform](https://github.com/dremio/dremio-oss) & [ClickHouse DB](https://github.com/ClickHouse/ClickHouse) through  [ClickHouse JDBC](https://github.com/ClickHouse/clickhouse-jdbc).
 
+ARP connector for some other databases are available @ [Dremio Hub](https://github.com/dremio-hub).
+
 ## Building and Installation
 
 1. In root directory with the pom.xml file run `mvn clean install`
